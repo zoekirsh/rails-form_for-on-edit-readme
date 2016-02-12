@@ -137,11 +137,13 @@ With the new structure for the `form_for` the params look like this:
 
 Notice how the attributes are now encapsulated in the `"post"` object? That's the main reason we needed to add the `require` method.
 
-Now if you go back to the `edit` page and submit the form, the record will be updated in the dataabse sucessfully.
+Now if you go back to the `edit` page and submit the form, the record will be updated in the database sucessfully.
 
 
 ## Summary
 
 Nice work, you now know how to integrate multiple form helpers into a Rails application and you should have a good idea on when to properly use `form_for` vs `form_tag`.
 
-<p data-visibility='hidden'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme' title='form_for on Edit'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
+<a href='https://learn.co/lessons/rails-form_for-on-edit-readme' data-visibility='hidden'>View this lesson on Learn.co</a>
+
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
