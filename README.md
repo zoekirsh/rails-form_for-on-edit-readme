@@ -12,7 +12,7 @@ To review, the `form_tag` helper method allows us to automatically generate HTML
 
 Before we get into the benefits and features of the `form_for` method, let's first discuss some of the key drawbacks to utilizing `form_tag`:
 
-* Our form has to manually be passed the route for where the form parameters will be submitted
+* Our form must be manually passed to the route where the form parameters will be submitted
 
 * The form has no knowledge of the form's goal; it doesn't know if the form is meant to create or update a record
 
@@ -147,3 +147,5 @@ Nice work, you now know how to integrate multiple form helpers into a Rails appl
 <a href='https://learn.co/lessons/rails-form_for-on-edit-readme' data-visibility='hidden'>View this lesson on Learn.co</a>
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
