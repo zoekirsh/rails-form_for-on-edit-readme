@@ -50,36 +50,36 @@ Let's take the `edit` form that utilized the `form_tag` that we built before for
   <label>Post title:</label><br>
   <%= text_field_tag :title, @post.title %><br>
 
-  <label>Post Description</label><br>
+  <label>Post description</label><br>
   <%= text_area_tag :description, @post.description %><br>
   
   <%= submit_tag "Submit Post" %>
 <% end %>
 ```
 
-Let's take this refactor one element at a time. Since we already have access to the `@post` instance variable we know that we can pass that to the `form_for` method. We also can remove the path argument and the `method` call since `form_for` will automatically set these for us. How does `form_for` know that we want to use `PUT` for the form method? It's smart enough to know that since it's dealing with a pre-existing record that you want to utilize `PUT` over `POST`.
+Let's take this refactor one element at a time. Since we already have access to the `@post` instance variable we know that we can pass that to the `form_for` method. We also can remove the path argument and the `method` call since `form_for` will automatically set these for us. How does `form_for` know that we want to use `PUT` for the form method? It's smart enough to know that since it's dealing with a pre-existing record you want to utilize `PUT` over `POST`.
 
 ```erb
 <%= form_for(@post) do |f| %>
 ```
 
-The `|f|` is an iterator variable that we can use on the new form object that will allow us to dynamically assign form field elements to each of the `post` data attributes, along with auto filling the values for each field. We get this `ActionView` functionality because we're using the `form_for` method and that gives us access to the `FormBuilder` module in Rails ([Documentation](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html)). Inside of the form we can now refactor the fields:
+The `|f|` is an iterator variable that we can use on the new form object that will allow us to dynamically assign form field elements to each of the `post` data attributes, along with auto filling the values for each field. We get this `ActionView` functionality because we're using the `form_for` method, which gives us access to the [`FormBuilder` module in Rails](http://api.rubyonrails.org/classes/ActionView/Helpers/FormBuilder.html). Inside of the form, we can now refactor the fields:
 
 ```erb
 <label>Post title:</label><br>
 <%= f.text_field :title %><br>
 
-<label>Post Description</label><br>
+<label>Post description</label><br>
 <%= f.text_area :description %><br>
 ```
 
-Isn't that much cleaner? Notice how we no longer have to pass in the values manually? By passing in the attribute as a symbol (e.g. `:title`) that will automatically tell the form field what model attribute to be associated with. It also is what auto fills the values for us. Now let's refactor the submit button, instead of `<%= submit_tag "Submit Post" %>` we can change it to:
+Isn't that much cleaner? Notice how we no longer have to pass in the values manually? By passing in the attribute as a symbol (e.g. `:title`) that will automatically tell the form field what model attribute to be associated with. It also is what auto-fills the values for us. Next, let's refactor the submit button. Instead of `<%= submit_tag "Submit Post" %>`, we can change it to:
 
 ```erb
 <%= f.submit %>
 ```
 
-Lastly, `form_for` also automatically sets the `authenticity_token` value for us, so we can remove the `<%= hidden_field_tag :authenticity_token, form_authenticity_token %>` line completely. Our new form will look something like this:
+Our new form will look something like this:
 
 ```erb
 <h3>Post Form</h3>
@@ -88,7 +88,7 @@ Lastly, `form_for` also automatically sets the `authenticity_token` value for us
   <label>Post title:</label><br>
   <%= f.text_field :title %><br>
 
-  <label>Post Description</label><br>
+  <label>Post description</label><br>
   <%= f.text_area :description %><br>
   
   <%= f.submit %>
@@ -101,21 +101,21 @@ Our refactor work isn't quite done. If you had previously created a `PUT` route 
 patch 'posts/:id', to: 'posts#update'
 ```
 
-What's the difference between `PUT` and `PATCH`? The differences are pretty subtle. On a high level `PUT` has the ability to update the entire object, whereas `PATCH` simply updates the element that was changed. Many developers choose to utilize `PATCH` as much as possible because it requires less overhead, however, it is pretty rare when you will need to distinguish between the two verbs and they are used interchangeably quite often.
+What's the difference between `PUT` and `PATCH`? It's pretty subtle. On a high level, `PUT` has the ability to update the entire object, whereas `PATCH` simply updates the elements that were changed. Many developers choose to utilize `PATCH` as much as possible because it requires less overhead; however, it is pretty rare when you will need to distinguish between the two verbs, and they are used interchangeably quite often.
 
-You can also put in an additional argument if you're using the `resources` method for `update` and this will all happen automatically.
+You can also add `update` as an additional argument in the `resources` method array, and this will all happen automatically.
 
-Now if you start the Rails server and go to an edit page you'll see that the data is loaded into the form and everything appears to be working properly, however if you change the value of one of the form fields and click `Update post` you will see that the record isn't updated. So what's happening? When I run into behavior like this I'll usually look at the console logs to see if it tells me anything. Below is the screenshot of what I see after submitting the form:
+Now if you start the Rails server and go to an `edit` page, you'll see that the data is loaded into the form and everything appears to be working properly. However, if you change the value of one of the form fields and click `Update Post`, you will see that the record updates incorrectly. So what's happening? When you run into behavior like this, it's good practice to look at the console logs to see if they tell us anything. Below is an example of what you might see after submitting the form:
 
 ![Unpermitted Parameters](https://s3.amazonaws.com/flatiron-bucket/readme-lessons/unpermitted_params.png)
 
-Because `form_for` is bound directly with the `Post` model, we need to pass the model into update method in the controller. So let's change: `@post.update(title: params[:title], description: params[:description])` to:
+Because `form_for` is bound directly with the `Post` model, we need to pass the model name into the Active Record `update` method in the controller. Let's change `@post.update(title: params[:title], description: params[:description])` to:
 
 ```ruby
 @post.update(params.require(:post))
 ```
 
-So why do we need to `require` the `post`? If you look at the old form the params would look something like this:
+So, why do we need to `require` the `post` model? If you look at the old form, the `params` would look something like this:
 
 ```
 {
@@ -124,7 +124,7 @@ So why do we need to `require` the `post`? If you look at the old form the param
 }
 ```
 
-With the new structure for the `form_for` the params look like this:
+With the new structure introduced by `form_for`, the `params` now look like this:
 
 ```
 {
@@ -135,17 +135,13 @@ With the new structure for the `form_for` the params look like this:
 }
 ```
 
-Notice how the attributes are now encapsulated in the `"post"` object? That's the main reason we needed to add the `require` method.
+Notice how the `title` and `description` attributes are now nested within the `post` hash? That's why we needed to add the `require` method.
 
-Now if you go back to the `edit` page and submit the form, the record will be updated in the database sucessfully.
+If you go back to the `edit` page and submit the form, the record will be updated in the database successfully.
 
 
 ## Summary
 
-Nice work, you now know how to integrate multiple form helpers into a Rails application and you should have a good idea on when to properly use `form_for` vs `form_tag`.
-
-<a href='https://learn.co/lessons/rails-form_for-on-edit-readme' data-visibility='hidden'>View this lesson on Learn.co</a>
+Nice work! You now know how to integrate multiple form helpers into a Rails application, and you should have a good idea on when to properly use `form_for` vs. `form_tag`.
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
-
-<p class='util--hide'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
