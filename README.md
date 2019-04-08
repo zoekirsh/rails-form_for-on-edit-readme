@@ -135,7 +135,7 @@ With the new structure introduced by `form_for`, the `params` now look like this
 }
 ```
 
-Notice how the `title` and `description` attributes are now nested within the `post` hash? That's why we needed to add the `require` method. But Rails wants us to be conscious of which attributes we allow to be updated in our database, so we must also `permit` the `title` and `description` in the nested hash. Using strong parameters like this will allow ActiveRecord to use Mass Assignment without trouble.
+Notice how the `title` and `description` attributes are now nested within the `post` hash? That's why we needed to add the `require` method. But Rails wants us to be conscious of which attributes we allow to be updated in our database, so we must also `permit` the `title` and `description` in the nested hash. Using strong parameters like this will allow ActiveRecord to use mass assignment without trouble.
 
 If you go back to the `edit` page and submit the form, the record will be updated in the database successfully.
 
