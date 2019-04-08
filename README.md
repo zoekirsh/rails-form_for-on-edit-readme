@@ -52,7 +52,7 @@ Let's take the `edit` form that utilized the `form_tag` that we built before for
 
   <label>Post description</label><br>
   <%= text_area_tag :description, @post.description %><br>
-  
+
   <%= submit_tag "Submit Post" %>
 <% end %>
 ```
@@ -90,7 +90,7 @@ Our new form will look something like this:
 
   <label>Post description</label><br>
   <%= f.text_area :description %><br>
-  
+
   <%= f.submit %>
 <% end %>
 ```
@@ -112,7 +112,7 @@ Now if you start the Rails server and go to an `edit` page, you'll see that the 
 Because `form_for` is bound directly with the `Post` model, we need to pass the model name into the Active Record `update` method in the controller. Let's change `@post.update(title: params[:title], description: params[:description])` to:
 
 ```ruby
-@post.update(params.require(:post))
+@post.update(params.require(:post).permit(:title, :description))
 ```
 
 So, why do we need to `require` the `post` model? If you look at the old form, the `params` would look something like this:
@@ -135,7 +135,7 @@ With the new structure introduced by `form_for`, the `params` now look like this
 }
 ```
 
-Notice how the `title` and `description` attributes are now nested within the `post` hash? That's why we needed to add the `require` method.
+Notice how the `title` and `description` attributes are now nested within the `post` hash? That's why we needed to add the `require` method. But Rails wants us to be conscious of which attributes we allow to be updated in our database, so we must also `permit` the `title` and `description` in the nested hash. Using strong parameters like this will allow ActiveRecord to use Mass Assignment without trouble.
 
 If you go back to the `edit` page and submit the form, the record will be updated in the database successfully.
 
