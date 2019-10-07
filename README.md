@@ -98,6 +98,11 @@ Our new form will look something like this:
 Our refactor work isn't quite done. If you had previously created a `PUT` route like we did in the `form_tag` lesson, we'll need to change that to a `PATCH` method since that is the HTTP verb that `form_for` utilizes. We can make that change in the `config/routes.rb` file:
 
 ```ruby
+# config/routes.rb
+resources :posts, only: [:index, :show, :new, :create, :edit, :update]
+```
+
+```ruby
 patch 'posts/:id', to: 'posts#update'
 ```
 
