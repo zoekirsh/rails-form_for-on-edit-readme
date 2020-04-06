@@ -149,6 +149,4 @@ If you go back to the `edit` page and submit the form, the record will be update
 
 Nice work! You now know how to integrate multiple form helpers into a Rails application, and you should have a good idea on when to properly use `form_for` vs. `form_tag`.
 
-<p data-visibility='hidden'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
-
 <p class='util--hide'>View <a href='https://learn.co/lessons/rails-form_for-on-edit-readme'>form_for on Edit</a> on Learn.co and start learning to code for free.</p>
