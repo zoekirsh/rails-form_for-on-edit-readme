@@ -5,7 +5,7 @@ If you know how to utilize the `form_tag` method for creating forms in Rails you
 
 ## Recap of `form_tag`
 
-To review, the `form_tag` helper method allows us to automatically generate HTML form code and integrate data to both auto fill the values as well as have the form submit data that the controller can use to either create or update a record in the database. It allows for you to pass in: the route for where the parameters for the form will be sent, the HTTP method that the form will utilize, and the attributes for each field.
+To review, the `form_tag` helper method allows us to automatically generate HTML form code and integrate data to both auto fill the values as well as have the form submit data that the controller can use to either create or update a record in the database. It allows for you to pass in: the route to which the parameters for the form will be sent, the HTTP method that the form will utilize, and the attributes for each field.
 
 
 ## Issues with using `form_tag`
@@ -57,7 +57,7 @@ Let's take the `edit` form that utilized the `form_tag` that we built before for
 <% end %>
 ```
 
-Let's take this refactor one element at a time. Since we already have access to the `@post` instance variable we know that we can pass that to the `form_for` method. We also can remove the path argument and the `method` call since `form_for` will automatically set these for us. How does `form_for` know that we want to use `PUT` for the form method? It's smart enough to know that since it's dealing with a pre-existing record you want to utilize `PUT` over `POST`.
+Let's take this refactor one element at a time. Since we already have access to the `@post` instance variable we know that we can pass that to the `form_for` method. We also can remove the path argument and the `method` call since `form_for` will automatically set these for us. How does `form_for` know that we want to use `PUT` for the form method? It's smart enough to know that because it's dealing with a pre-existing record you want to utilize `PUT` over `POST`.
 
 ```erb
 <%= form_for(@post) do |f| %>
